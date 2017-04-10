@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.myg">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +26,34 @@
         <activity
             android:name=".A_Accueil"
             android:label="@string/title_activity_a__accueil"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AG_main"
+            android:label="@string/title_ag_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".NG_main"
+            android:label="@string/title_ng_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".SG_main"
+            android:label="@string/title_sg_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".FG_main"
+            android:label="@string/title_fg_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".PG_main"
+            android:label="@string/title_pg_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".O_main"
+            android:label="@string/title_o_main"
+            android:parentActivityName=".A_Accueil" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

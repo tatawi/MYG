@@ -7,23 +7,23 @@
             android:icon="@drawable/ic_menu_menu"
             android:title="Accueil" />
         <item
-            android:id="@+id/nav_allGames"
+            android:id="@+id/nav_AllGames"
             android:icon="@drawable/ic_menu_allgames"
             android:title="Tous mes jeux" />
         <item
-            android:id="@+id/nav_addGame"
+            android:id="@+id/nav_NewGame"
             android:icon="@drawable/ic_menu_add"
             android:title="Ajouter un jeu" />
         <item
-            android:id="@+id/nav_searchGame"
+            android:id="@+id/nav_SearchGame"
             android:icon="@drawable/ic_menu_search"
             android:title="Rechercher un jeu" />
         <item
-            android:id="@+id/nav_Groupes"
+            android:id="@+id/nav_FriendsGroups"
             android:icon="@drawable/ic_menu_friend"
             android:title="Groupes d'amis" />
         <item
-            android:id="@+id/nav_Jouer"
+            android:id="@+id/nav_PlayGame"
             android:icon="@drawable/ic_menu_play"
             android:title="jouer" />
     </group>
@@ -31,7 +31,7 @@
     <item android:title="Paramètres">
         <menu>
             <item
-                android:id="@+id/nav_option"
+                android:id="@+id/nav_Option"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Options" />
             <item
