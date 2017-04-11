@@ -138,8 +138,8 @@ return true;
 
         else if (id == R.id.nav_Option)
         {
-            /*Intent intent = new Intent(A_Accueil.this, LoginActivity.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(A_Accueil.this, O_main.class);
+            startActivity(intent);
         }
 
         else if (id == R.id.nav_disconnect)

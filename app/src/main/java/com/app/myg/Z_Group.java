@@ -1,5 +1,6 @@
 package com.app.myg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,5 +11,13 @@ public class Z_Group
 {
     public String groupId;
     public String name;
-    public List<Z_user> list_membres;
+    public List<String> list_membresId;
+
+
+    public Z_Group(String id, String nom)
+    {
+        this.groupId=id;
+        this.name=nom;
+        this.list_membresId= new ArrayList<String>();
+    }
 }
