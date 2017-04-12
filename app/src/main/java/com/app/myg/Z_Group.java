@@ -13,6 +13,10 @@ public class Z_Group
     public String name;
     public List<String> list_membresId;
 
+    public Z_Group()
+    {
+
+    }
 
     public Z_Group(String id, String nom)
     {

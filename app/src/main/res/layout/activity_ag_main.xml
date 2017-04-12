@@ -6,14 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.app.myg.AG_main">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/ag_main_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#3F51B5"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main_ag_globalLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="#FAFAFA">
+        </LinearLayout>
 
-
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

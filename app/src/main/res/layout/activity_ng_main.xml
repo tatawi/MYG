@@ -1,9 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     tools:context="com.app.myg.NG_main">
 
-</android.support.constraint.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/NG_main_tb_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Nom du jeu"
+        android:text=""
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Nombre de joueurs :"
+        android:textColor="#3F51B5"
+        android:textSize="18dp"/>
+
+    <SeekBar
+        android:id="@+id/NG_main_sb_nbJoueurs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Durée :"
+        android:textColor="#3F51B5"
+        android:textSize="18dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+
+        <ImageButton
+            android:id="@+id/NG_main_btn_hour_moins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_back"
+            android:background="@null" />
+
+        <TextView
+            android:id="@+id/NG_main_lb_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            android:text="1" />
+
+        <ImageButton
+            android:id="@+id/NG_main_btn_hour_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_forward"
+            android:background="@null" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
+            android:text="h" />
+
+        <ImageButton
+            android:id="@+id/NG_main_btn_min_moins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_back"
+            android:background="@null" />
+
+        <TextView
+            android:id="@+id/NG_main_lb_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
+            android:text="00" />
+
+        <ImageButton
+            android:id="@+id/NG_main_btn_min_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_forward"
+            android:background="@null" />
+
+    </LinearLayout>
+        </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Note :"
+        android:textColor="#3F51B5"
+        android:textSize="18dp"/>
+
+    <RatingBar
+        android:id="@+id/NG_main_rb_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Type :"
+        android:textColor="#3F51B5"
+        android:textSize="18dp"/>
+
+    <Spinner
+        android:id="@+id/NG_main_sp_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Complèxité :"
+        android:textColor="#3F51B5"
+        android:textSize="18dp"/>
+
+    <LinearLayout
+        android:id="@+id/NG_main_ll_compl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="40dp">
+
+            <ImageButton
+                android:id="@+id/NG_main_btn_compl_easy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_complx_easy"
+                android:background="@null"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/NG_main_lb_compl_easy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Facile" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="40dp">
+
+            <ImageButton
+                android:id="@+id/NG_main_btn_compl_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_complx_normal"
+                android:background="@null"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/NG_main_lb_compl_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Classique" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="50dp">
+
+            <ImageButton
+                android:id="@+id/NG_main_btn_compl_hard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_complx_hard"
+                android:background="@null"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/NG_main_lb_compl_hard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complexe" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

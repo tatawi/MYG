@@ -1,5 +1,6 @@
 package com.app.myg;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,10 +23,13 @@ public class Z_Base
 {
     DatabaseReference mDatabase;
     Z_user user;
+    List<Z_Game> list_games;
+    List<Z_Group> list_groups;
 
     public Z_Base()
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
     }
 
 
@@ -33,74 +37,34 @@ public class Z_Base
     {
 
 
-        //Query ref = mDatabase.child("Users").limitToFirst();
-/*
-        DatabaseReference ref = mDatabase.child("Users");
-        Query userQuery = ref orderByChild("userId").equalTo(mAuth.getCurrentUser().getUid());
-
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Z_user message = messageSnapshot.getValue(Z_user.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) { }
-        });
-
-
-
-        ValueEventListener postListener = new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                // Get Post object and use the values to update the UI
-                Z_user post = dataSnapshot.getValue(Z_user.class);
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                // Getting Post failed, log a message
-                //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-        mDatabase.addValueEventListener(postListener);
-
-*/
-
         return new ArrayList<Z_user>();
     }
 
 
     public Z_user getCurrentUser()
     {
-        FirebaseAuth mAuth= FirebaseAuth.getInstance();
-        DatabaseReference ref = mDatabase.child("Users");
 
-        Query userQuery = ref.orderByChild("userId").equalTo(mAuth.getCurrentUser().getUid());
-        userQuery.addListenerForSingleValueEvent(new ValueEventListener()
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        ValueEventListener postListener = new ValueEventListener()
         {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-                {
-                    user=singleSnapshot.getValue(Z_user.class);
-                }
+                user = dataSnapshot.getValue(Z_user.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError)
-            {
-                //Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+            {}
+        };
+
+        mDatabase.addListenerForSingleValueEvent(postListener);
+
+        //user.list_jeux=getUserGames(user);
+       // user.list_groupes=getUserGroups(user);
 
         return user;
     }
@@ -126,6 +90,60 @@ public class Z_Base
     public void addUser(Z_user user)
     {
         mDatabase.child("Users").child(user.userId).setValue(user);
+    }
+
+
+    public List<Z_Game> getUserGames(Z_user user)
+    {
+        list_games = new ArrayList<Z_Game>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user.userId).child("list_jeux");
+
+        ValueEventListener postListener = new ValueEventListener()
+        {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
+                {
+                    list_games.add(singleSnapshot.getValue(Z_Game.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {}
+        };
+
+        mDatabase.addListenerForSingleValueEvent(postListener);
+        return list_games;
+    }
+
+
+    public List<Z_Group> getUserGroups(Z_user user)
+    {
+        list_groups = new ArrayList<Z_Group>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user.userId).child("list_groupes");
+
+        ValueEventListener postListener = new ValueEventListener()
+        {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
+                {
+                    list_groups.add(singleSnapshot.getValue(Z_Group.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {}
+        };
+
+        mDatabase.addListenerForSingleValueEvent(postListener);
+        return list_groups;
     }
 
 

@@ -5,7 +5,16 @@ package com.app.myg;
  */
 
 public enum Z_E_GameType {
+    Adresse,
+    Affrontement,
+    Ambiance,
+    Carte,
+    Connaissances,
     Cooperation,
-    strategie,
-    autre;
+    Enquete,
+    Logique,
+    Rapidité,
+    Réflexion,
+    Strategie,
+    Autre;
 }
