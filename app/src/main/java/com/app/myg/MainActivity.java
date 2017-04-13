@@ -45,24 +45,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initialiser objets de la page
-        //btn_start = (Button) findViewById(R.id.main_btn);
 
-
-        //listeners
-        //btn_start.setOnClickListener(onStart);
-
-        // Views
-        //mStatusTextView = (TextView) findViewById(R.id.status);
-       // mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.main_field_email);
         mPasswordField = (EditText) findViewById(R.id.main_field_password);
 
         // Buttons
         findViewById(R.id.main_email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.main_email_create_account_button).setOnClickListener(this);
-        //findViewById(R.id.sign_out_button).setOnClickListener(this);
-        //findViewById(R.id.verify_email_button).setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -138,9 +127,19 @@ public class MainActivity extends AppCompatActivity
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
+                        {
                             Toast.makeText(MainActivity.this, "failed",Toast.LENGTH_SHORT).show();
                         }
+
+                        if (task.isSuccessful())
+                        {
+                            Z_Base bdd=new Z_Base();
+                            Z_user user = new Z_user(mAuth.getCurrentUser().getUid(),mAuth.getCurrentUser().getEmail());
+
+                            bdd.addUser(user);
+                        }
+
 
                         // [START_EXCLUDE]
                         hideProgressDialog();

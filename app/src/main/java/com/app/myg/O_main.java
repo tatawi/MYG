@@ -32,16 +32,16 @@ public class O_main extends AppCompatActivity {
         group2.list_membresId.add(user.userId);
         group2.list_membresId.add(user4.userId);
 
-        Z_Game jeu1 = new Z_Game("1","Pendemie",4,60,3,Z_E_GameType.Cooperation, 3);
-        Z_Game jeu2 = new Z_Game("2","Seigneur des Tenebres",10,15,1,Z_E_GameType.Adresse, 1);
-        Z_Game jeu3 = new Z_Game("3","Citadelle",8,30,1,Z_E_GameType.Affrontement, 1);
-        Z_Game jeu4 = new Z_Game("4","Le Havre",5,120,2,Z_E_GameType.Carte, 2);
-        Z_Game jeu5 = new Z_Game("5","Game Of Thrones",6,240,3,Z_E_GameType.Enquete, 3);
-        Z_Game jeu6 = new Z_Game("6","Les colon de Catane",4,120,2,Z_E_GameType.Logique, 2);
-        Z_Game jeu7 = new Z_Game("7","Le Saboteur",10,20,1,Z_E_GameType.Strategie, 1);
-        Z_Game jeu8 = new Z_Game("8","Munchkin de l'espace",10,120,2,Z_E_GameType.Enquete, 2);
-        Z_Game jeu9 = new Z_Game("9","Service Compris",5,15,1,Z_E_GameType.Cooperation, 1);
-        Z_Game jeu10 = new Z_Game("10","Dame de pique",4,60,1,Z_E_GameType.Affrontement, 1);
+        Z_Game jeu1 = new Z_Game("Pendemie",4,60,3,Z_E_GameType.Cooperation, 3);
+        Z_Game jeu2 = new Z_Game("Seigneur des Tenebres",10,15,1,Z_E_GameType.Adresse, 1);
+        Z_Game jeu3 = new Z_Game("Citadelle",8,30,1,Z_E_GameType.Affrontement, 1);
+        Z_Game jeu4 = new Z_Game("Le Havre",5,120,2,Z_E_GameType.Carte, 2);
+        Z_Game jeu5 = new Z_Game("Game Of Thrones",6,240,3,Z_E_GameType.Enquete, 3);
+        Z_Game jeu6 = new Z_Game("Les colon de Catane",4,120,2,Z_E_GameType.Logique, 2);
+        Z_Game jeu7 = new Z_Game("Le Saboteur",10,20,1,Z_E_GameType.Strategie, 1);
+        Z_Game jeu8 = new Z_Game("Munchkin de l'espace",10,120,2,Z_E_GameType.Enquete, 2);
+        Z_Game jeu9 = new Z_Game("Service Compris",5,15,1,Z_E_GameType.Cooperation, 1);
+        Z_Game jeu10 = new Z_Game("Dame de pique",4,60,1,Z_E_GameType.Affrontement, 1);
 
         user.list_jeux.add(jeu1);
         user.list_jeux.add(jeu2);

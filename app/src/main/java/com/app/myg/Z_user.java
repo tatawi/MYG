@@ -17,7 +17,10 @@ public class Z_user
     //Default constructor
     public Z_user()
     {
-
+        this.userId="";
+        this.mail="";
+        list_groupes=new ArrayList<Z_Group>();
+        list_jeux=new ArrayList<Z_Game>();
     }
 
     public Z_user(String userId, String mail)

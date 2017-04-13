@@ -29,11 +29,29 @@
         android:textColor="#3F51B5"
         android:textSize="18dp"/>
 
-    <SeekBar
-        android:id="@+id/NG_main_sb_nbJoueurs"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        />
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <SeekBar
+            android:id="@+id/NG_main_sb_nbJoueurs"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            />
+
+        <TextView
+            android:id="@+id/NG_main_lb_nbJoueurs"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:layout_marginRight="5dp"
+            android:textColor="#3F51B5"
+            android:textSize="18dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -115,45 +133,58 @@
     </LinearLayout>
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Note :"
+            android:textColor="#3F51B5"
+            android:textSize="18dp"/>
+
+        <RatingBar
+            android:id="@+id/NG_main_rb_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Type :"
+            android:textColor="#3F51B5"
+            android:textSize="18dp"/>
+
+        <Spinner
+            android:id="@+id/NG_main_sp_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:text="Note :"
-        android:textColor="#3F51B5"
-        android:textSize="18dp"/>
-
-    <RatingBar
-        android:id="@+id/NG_main_rb_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Type :"
-        android:textColor="#3F51B5"
-        android:textSize="18dp"/>
-
-    <Spinner
-        android:id="@+id/NG_main_sp_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Complèxité :"
+        android:text="Difficulté :"
         android:textColor="#3F51B5"
         android:textSize="18dp"/>
 
@@ -206,7 +237,7 @@
                 android:id="@+id/NG_main_lb_compl_normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Classique" />
+                android:text="Moyen" />
 
 
         </LinearLayout>
@@ -229,7 +260,7 @@
                 android:id="@+id/NG_main_lb_compl_hard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Complexe" />
+                android:text="Difficile" />
 
 
         </LinearLayout>
@@ -237,6 +268,14 @@
 
     </LinearLayout>
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/NG_main_btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_add" />
 
 
 

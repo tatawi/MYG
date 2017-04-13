@@ -26,7 +26,7 @@
         <activity
             android:name=".A_Accueil"
             android:label="@string/title_activity_a__accueil"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AG_main"
             android:label="@string/title_ag_main"
@@ -53,7 +53,11 @@
             android:parentActivityName=".A_Accueil" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".toto"
+            android:label="@string/title_activity_toto"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

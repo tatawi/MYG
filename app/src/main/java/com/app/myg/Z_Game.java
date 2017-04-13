@@ -6,9 +6,8 @@ package com.app.myg;
 
 public class Z_Game
 {
-    public String jeuId;
+    public int id;
     public String nom;
-
     public int nbJoueurs;
     public int dureeM;
     public int note;
@@ -20,9 +19,8 @@ public class Z_Game
 
     }
 
-    public Z_Game(String id, String nom, int nb, int duree, int note, Z_E_GameType type, int compl)
+    public Z_Game(String nom, int nb, int duree, int note, Z_E_GameType type, int compl)
     {
-        this.jeuId=id;
         this.nom=nom;
         this.nbJoueurs=nb;
         this.dureeM=duree;

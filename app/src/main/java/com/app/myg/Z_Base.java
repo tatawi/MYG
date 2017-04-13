@@ -87,12 +87,6 @@ public class Z_Base
         return new ArrayList<Z_user>();
     }
 
-    public void addUser(Z_user user)
-    {
-        mDatabase.child("Users").child(user.userId).setValue(user);
-    }
-
-
     public List<Z_Game> getUserGames(Z_user user)
     {
         list_games = new ArrayList<Z_Game>();
@@ -145,6 +139,25 @@ public class Z_Base
         mDatabase.addListenerForSingleValueEvent(postListener);
         return list_groups;
     }
+
+
+
+    public void addUser(Z_user user)
+    {
+        mDatabase.child("Users").child(user.userId).setValue(user);
+    }
+
+
+
+    public void addGame(Z_Game game)
+    {
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+
+        mDatabase.child("Users").child(userId).child("Jeux").child(""+game.id).setValue(game);
+    }
+
+
 
 
 
