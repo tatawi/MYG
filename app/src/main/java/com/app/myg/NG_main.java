@@ -183,6 +183,15 @@ public class NG_main extends AppCompatActivity
             int min = Integer.parseInt(lb_mm.getText().toString());
             min=min+15;
             lb_mm.setText(""+min);
+
+            if(min>60)
+            {
+                min=0;
+                lb_mm.setText(""+min);
+                int hour = Integer.parseInt(lb_hh.getText().toString());
+                hour++;
+                lb_hh.setText(""+hour);
+            }
         }
     };
 
@@ -193,13 +202,7 @@ public class NG_main extends AppCompatActivity
             min=min-15;
             if(min < 15)
                 min=15;
-            if(min>=60)
-            {
-                min=0;
-                int hour = Integer.parseInt(lb_hh.getText().toString());
-                hour++;
-                lb_hh.setText(""+hour);
-            }
+
             lb_mm.setText(""+min);
 
         }
