@@ -3,19 +3,23 @@ package com.app.myg;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AG_main extends AppCompatActivity
@@ -33,7 +38,8 @@ public class AG_main extends AppCompatActivity
 
     private Z_user user;
     private List<Z_Game> list_jeux;
-    DatabaseReference mDatabase;
+    private int gameId;
+    private DatabaseReference mDatabase;
 
 
 
@@ -44,14 +50,14 @@ public class AG_main extends AppCompatActivity
         setContentView(R.layout.activity_ag_main);
 
         list_jeux=new ArrayList<Z_Game>() ;
+        user=new Z_user();
 
         //Interface Objects
         globalLayout =  (LinearLayout) findViewById(R.id.main_ag_globalLayout);
 
         //Firabase Objects
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Jeux");
-        Toast.makeText(AG_main.this, mAuth.getCurrentUser().getUid(),Toast.LENGTH_LONG).show();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
 
         showProgressDialog();
@@ -67,7 +73,7 @@ public class AG_main extends AppCompatActivity
 //---------------------------------------------------------------------------------------
 
     //FOR BDD
-    /*ValueEventListener postListener = new ValueEventListener()
+    ValueEventListener postListener = new ValueEventListener()
     {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot)
@@ -83,50 +89,18 @@ public class AG_main extends AppCompatActivity
         {
             // Getting Post failed, log a message
         }
-    };*/
-
-
-    ValueEventListener postListener = new ValueEventListener()
-    {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot)
-        {
-            list_jeux=new ArrayList<Z_Game>() ;
-            for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-            {
-
-                int gameId=dataSnapshot.getValue(int.class);
-
-
-
-
-                //DataSnapshot singleSnapshot2=singleSnapshot.getChildren();
-
-
-                list_jeux.add(dataSnapshot.getValue(Z_Game.class));
-            }
-            //user = dataSnapshot.getValue(Z_user.class);
-            setAffichage(list_jeux);
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError)
-        {
-            // Getting Post failed, log a message
-        }
     };
+
+
 
 
     //ON LONG CLICK = REMOVE
     View.OnLongClickListener onLongClickLayout = new View.OnLongClickListener() {
         public boolean onLongClick(View v)
         {
-            LinearLayout selectedLL = (LinearLayout) v;
-            final Z_Game delGame=user.list_jeux.get(selectedLL.getId());
+            final LinearLayout selectedLL = (LinearLayout) v;
+            gameId = selectedLL.getId();
 
-            if(delGame != null)
-            {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -134,11 +108,14 @@ public class AG_main extends AppCompatActivity
                             case DialogInterface.BUTTON_POSITIVE:
                                 //REMOVE OK
 
-
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                                mDatabase.child("Users").child(user.userId).child("list_jeux").child("").removeValue();
+                                mDatabase.child("Users").child(user.userId).child("list_jeux").child(""+gameId).removeValue();
+                                Toast.makeText(AG_main.this, "Jeu supprimé",Toast.LENGTH_SHORT).show();
 
-
+                                /*showProgressDialog();
+                                mDatabase.addListenerForSingleValueEvent(postListener);
+                                hideProgressDialog();*/
+                                selectedLL.removeAllViews();
 
                                 break;
 
@@ -150,65 +127,22 @@ public class AG_main extends AppCompatActivity
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Supprimer "+delGame.nom+" ?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("Supprimer le jeu ?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-            }
-
-/*
-            for (C_Sujet s:day.liste_sujets)
-            {
-                if(s.id==selectedLL.getId())
-                {
-                    s.creerLesListes(daoMessage, daoparticipant);
-                    final C_Sujet sujetToDel = s;
-
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
-                                case DialogInterface.BUTTON_POSITIVE:
-                                    //REMOVE OK
-
-                                    //delete messages
-                                    for (C_Message msgToDel:sujetToDel.liste_messages)
-                                    {
-                                        daoMessage.supprimer(msgToDel.id, options.online);
-                                    }
-
-                                    //delete subject
-                                    daoSujet.supprimer(sujetToDel.idSujet, options.online);
-
-                                    //maj jour
-                                    for (Iterator<C_Sujet> iter = day.liste_sujets.listIterator(); iter.hasNext(); )
-                                    {
-                                        C_Sujet subj = iter.next();
-                                        if (subj.idSujet.equals(sujetToDel.idSujet))
-                                        { iter.remove();}
-                                    }
-                                    //TODO prix
-                                    day.listeToString();
-                                    daoJour.modifier(day, options.online);
-
-                                    affichage();
 
 
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    //No button clicked
-                                    break;
-                            }
-                        }
-                    };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(pContext);
-                    builder.setMessage("Delete "+s.titre+" ?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
-
-                }
-            }
-            affichage();*/
             return true;
+        }
+    };
+
+
+    //ON ADD
+    View.OnClickListener onAddaGame = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            Intent intent = new Intent(AG_main.this, NG_main.class);
+            startActivity(intent);
         }
     };
 
@@ -219,118 +153,216 @@ public class AG_main extends AppCompatActivity
 //	FONCTIONS
 //---------------------------------------------------------------------------------------
 
-    /*private void setAffichage(Z_user user)
+    private void setAffichage(Z_user user)
     {
-        int idGame = 0;
+        globalLayout.removeAllViews();
         for (Z_Game game : user.list_jeux)
         {
-            //panel global
-            LinearLayout LLgame = new LinearLayout(this);
-            LLgame.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            LLParams.setMargins(20, 10, 20, 0);
-            LLgame.setLayoutParams(LLParams);
-            //LLgame.setPadding(20, 10, 20, 0);
-            LLgame.setBackgroundColor(Color.parseColor("#EEEEEE"));
-            //LLglobal.setId(p.id);
+            if (game != null)
+            {
+                //panel global
+                LinearLayout LLgame = new LinearLayout(this);
+                LLgame.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                LLParams.setMargins(20, 10, 20, 0);
+                LLgame.setLayoutParams(LLParams);
+                LLgame.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                LLgame.setId(game.id);
 
-            TextView nom = new TextView(this);
-            nom.setText(game.nom);
-            nom.setTextSize(25);
-            nom.setTextColor(Color.parseColor("#3F51B5"));
-            LLgame.addView(nom);
-
-
-            TextView nb = new TextView(this);
-            nb.setText(game.nbJoueurs +" joueurs");
-            nb.setTextSize(12);
-            LLgame.addView(nb);
+                TextView nom = new TextView(this);
+                nom.setText(game.nom);
+                nom.setTextSize(25);
+                nom.setTextColor(Color.parseColor("#3F51B5"));
+                LLgame.addView(nom);
 
 
-            TextView duree = new TextView(this);
-            duree.setText(game.dureeM +" minutes");
-            duree.setTextSize(12);
-            LLgame.addView(duree);
+                LinearLayout LLContenu = new LinearLayout(this);
+                LLContenu.setOrientation(LinearLayout.HORIZONTAL);
+                LLContenu.setLayoutParams(LLParams);
 
-            TextView note = new TextView(this);
-            note.setText("note : "+game.note);
-            note.setTextSize(12);
-            LLgame.addView(note);
+                    ImageButton img = new ImageButton(this);
+                    img.setBackgroundColor(Color.TRANSPARENT);
 
-            TextView type = new TextView(this);
-            type.setText(game.type.name());
-            type.setTextSize(12);
-            LLgame.addView(type);
+                    LinearLayout LLTextes = new LinearLayout(this);
+                    LLTextes.setOrientation(LinearLayout.VERTICAL);
+                    LLTextes.setLayoutParams(LLParams);
 
-            TextView compl = new TextView(this);
-            compl.setText(""+game.complexite);
-            compl.setTextSize(12);
-            LLgame.addView(compl);
+                        //joueurs
+                        TextView nb = new TextView(this);
+                        nb.setText("Nombre de joueurs : " + game.nbJoueurs);
+                        nb.setTextSize(12);
+                        LLTextes.addView(nb);
+
+                        //dureé
+                        int hh = game.dureeM/60;
+                        int mm = game.dureeM-(hh*60);
+                        TextView duree = new TextView(this);
+                        duree.setText("Durée d'une partie : "+ hh+"h"+mm);
+                        duree.setTextSize(12);
+                        LLTextes.addView(duree);
+
+                        //rating bar
+                       /* RatingBar rb = new RatingBar(this, null, android.R.attr.ratingBarStyleSmall);
+                        rb.setMax(5);
+                        rb.setNumStars(game.note);
+                        LLTextes.addView(rb);*/
+
+                        LinearLayout LLStars = new LinearLayout(this);
+                        LLStars.setOrientation(LinearLayout.HORIZONTAL);
+                        LLStars.setLayoutParams(LLParams);
+
+                for (int i=0; i<game.note; i++)
+                {
+                    ImageButton bt = new ImageButton(this);
+                    bt.setBackgroundColor(Color.TRANSPARENT);
+                    bt.setImageResource(R.drawable.ic_star_full);
+                    LLStars.addView(bt);
+                }
+                for (int i=game.note; i<6; i++)
+                {
+                    ImageButton bt = new ImageButton(this);
+                    bt.setBackgroundColor(Color.TRANSPARENT);
+                    bt.setImageResource(R.drawable.ic_star_empty);
+                    LLStars.addView(bt);
+                }
+                LLTextes.addView(LLStars);
 
 
+                    LLContenu.addView(img);
+                    LLContenu.addView(LLTextes);
 
-            LLgame.setId(idGame);
-            LLgame.setOnLongClickListener(onLongClickLayout);
-            globalLayout.addView(LLgame);
-            idGame++;
+                LLgame.addView(LLContenu);
+                LLgame.setOnLongClickListener(onLongClickLayout);
+                globalLayout.addView(LLgame);
+
+
+                switch (game.type)
+                {
+                    case Adresse:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_adresse_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_adresse_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_adresse_hard);
+                        break;
+                    case Affrontement:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_affrontement_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_affrontement_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_affrontement_hard);
+                        break;
+                    case Ambiance:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_ambiance_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_ambiance_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_ambiance_hard);
+                        break;
+                    case Carte:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_cartes_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_cartes_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_cartes_hard);
+                        break;
+                    case Connaissances:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_conn_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_conn_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_conn_hard);
+                        break;
+                    case Cooperation:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_coop_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_coop_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_coop_hard);
+                        break;
+                    case Enquete:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_enquete_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_enquete_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_enquete_hard);
+                        break;
+                    case Logique:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_logique_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_logique_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_logique_hard);
+                        break;
+                    case Rapidité:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_speed_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_speed_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_speed_hard);
+                        break;
+                    case Réflexion:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_reflexion_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_reflexion_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_reflexion_hard);
+                        break;
+                    case Strategie:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_strat_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_strat_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_strat_hard);
+                        break;
+                    case Autre:
+                        if(game.complexite==1)
+                            img.setImageResource(R.drawable.ic_autre_easy);
+                        else if (game.complexite==2)
+                            img.setImageResource(R.drawable.ic_autre_normal);
+                        else
+                            img.setImageResource(R.drawable.ic_autre_hard);
+                        break;
+
+
+                }
+            }
         }
 
-    }*/
-
-    private void setAffichage(List<Z_Game> list_jeux)
-    {
-        int idGame = 0;
-        for (Z_Game game : list_jeux)
+        if(user.list_jeux.size()<1)
         {
-            //panel global
             LinearLayout LLgame = new LinearLayout(this);
             LLgame.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            LLParams.setMargins(20, 10, 20, 0);
+            LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+            LLParams.setMargins(50, 500, 50, 0);
             LLgame.setLayoutParams(LLParams);
-            //LLgame.setPadding(20, 10, 20, 0);
             LLgame.setBackgroundColor(Color.parseColor("#EEEEEE"));
-            //LLglobal.setId(p.id);
-
-            TextView nom = new TextView(this);
-            nom.setText(game.nom);
-            nom.setTextSize(25);
-            nom.setTextColor(Color.parseColor("#3F51B5"));
-            LLgame.addView(nom);
 
 
-            TextView nb = new TextView(this);
-            nb.setText(game.nbJoueurs +" joueurs");
-            nb.setTextSize(12);
-            LLgame.addView(nb);
+            Button btn = new Button(this);
+            btn.setText("Ajouter un premier jeu");
+            btn.setBackgroundColor(Color.parseColor("#3F51B5"));
+            btn.setTextColor(Color.parseColor("#FAFAFA"));
+            btn.setGravity(Gravity.CENTER);
 
+            btn.setOnClickListener(onAddaGame);
 
-            TextView duree = new TextView(this);
-            duree.setText(game.dureeM +" minutes");
-            duree.setTextSize(12);
-            LLgame.addView(duree);
+            LLgame.addView(btn);
 
-            TextView note = new TextView(this);
-            note.setText("note : "+game.note);
-            note.setTextSize(12);
-            LLgame.addView(note);
-
-            TextView type = new TextView(this);
-            type.setText(game.type.name());
-            type.setTextSize(12);
-            LLgame.addView(type);
-
-            TextView compl = new TextView(this);
-            compl.setText(""+game.complexite);
-            compl.setTextSize(12);
-            LLgame.addView(compl);
-
-
-
-            LLgame.setId(idGame);
-            LLgame.setOnLongClickListener(onLongClickLayout);
             globalLayout.addView(LLgame);
-            idGame++;
+
+
         }
 
     }

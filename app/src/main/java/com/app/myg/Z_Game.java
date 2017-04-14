@@ -1,5 +1,7 @@
 package com.app.myg;
 
+import java.util.Date;
+
 /**
  * Created by mbaudrais on 10/04/2017.
  */
@@ -13,6 +15,7 @@ public class Z_Game
     public int note;
     public Z_E_GameType type;
     public int complexite;
+    public Date date;
 
     public Z_Game()
     {

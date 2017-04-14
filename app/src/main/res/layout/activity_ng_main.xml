@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -18,6 +23,7 @@
         android:inputType="textPersonName"
         android:hint="Nom du jeu"
         android:text=""
+        android:imeOptions="actionDone"
         android:layout_marginTop="20dp"/>
 
     <TextView
@@ -206,7 +212,7 @@
                 android:id="@+id/NG_main_btn_compl_easy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_complx_easy"
+                app:srcCompat="@drawable/ic_complx_easy_fill"
                 android:background="@null"
                 android:layout_weight="1"/>
 
@@ -214,6 +220,7 @@
                 android:id="@+id/NG_main_lb_compl_easy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#16a085"
                 android:text="Facile" />
 
 
@@ -280,3 +287,4 @@
 
 
 </LinearLayout>
+</ScrollView>

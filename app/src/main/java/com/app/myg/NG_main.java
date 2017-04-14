@@ -1,6 +1,7 @@
 package com.app.myg;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +35,7 @@ public class NG_main extends AppCompatActivity
 {
     //variables
     private Z_Game game;
+    final Context context = this;
 
     //objets page
     public ProgressDialog mProgressDialog;
@@ -122,7 +125,8 @@ public class NG_main extends AppCompatActivity
 
         //ini
         game=new Z_Game();
-        game.complexite=0;
+        game.complexite=1;
+
 
 
     }
@@ -142,35 +146,19 @@ public class NG_main extends AppCompatActivity
         {
 
             showProgressDialog();
-
-            Date d = new Date();
-
-            game.id=Integer.parseInt(""+d.getYear()+""+d.getMonth()+""+d.getDay()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds());
             game.nom=tb_nom.getText().toString();
             game.nbJoueurs=sb_joueurs.getProgress();
             game.dureeM=Integer.valueOf(lb_hh.getText().toString())*60+Integer.valueOf(lb_mm.getText().toString());
             game.note=(int)rb_note.getRating();
             game.type=getType(sp_type.getSelectedItem().toString());
+            game.date=new Date();
 
-            //Z_Base bdd = new Z_Base();
-
-           // bdd.addGame(game);
-
-            /*FirebaseAuth mAuth= FirebaseAuth.getInstance();
+            FirebaseAuth mAuth= FirebaseAuth.getInstance();
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-
             mDatabase.addListenerForSingleValueEvent(postListener);
 
-
             Toast.makeText(NG_main.this, "Jeu créé",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(NG_main.this, A_Accueil.class);
-            startActivity(intent);*/
-
-            Z_Base bdd = new Z_Base();
-
-            bdd.addGame(game);
             hideProgressDialog();
-            Toast.makeText(NG_main.this, "Jeu créé",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(NG_main.this, A_Accueil.class);
             startActivity(intent);
         }
@@ -182,10 +170,11 @@ public class NG_main extends AppCompatActivity
         @Override
         public void onDataChange(DataSnapshot dataSnapshot)
         {
-
             Z_user user = dataSnapshot.getValue(Z_user.class);
 
-            if(!user.list_jeux.contains(game)) {
+            if(!user.list_jeux.contains(game))
+            {
+                game.id=getGameId(user.list_jeux);
                 user.list_jeux.add(game);
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -314,7 +303,7 @@ public class NG_main extends AppCompatActivity
             int min = Integer.parseInt(lb_mm.getText().toString());
             min=min-15;
             if(min < 15)
-                min=15;
+                min=0;
 
             lb_mm.setText(""+min);
 
@@ -389,6 +378,12 @@ public class NG_main extends AppCompatActivity
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    private int getGameId(List<Z_Game> list)
+    {
+        return list.size();
+
     }
 
 }
