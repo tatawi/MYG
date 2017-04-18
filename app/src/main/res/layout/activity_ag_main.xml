@@ -2,23 +2,75 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="com.app.myg.AG_main">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/main_ag_globalLayout"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:background="#FAFAFA">
+            android:background="#EEEEEE">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#3F51B5"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/AG_main_btn_recent"
+                    android:text="RECENTS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#3F51B5"
+                    android:textColor="#FDFDFD"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <Button
+                    android:id="@+id/AG_main_btn_top"
+                    android:text="MEILLEURES NOTES"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#3F51B5"
+                    android:textColor="#FDFDFD"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <Button
+                    android:id="@+id/AG_main_btn_type"
+                    android:text="TYPE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#3F51B5"
+                    android:textColor="#FDFDFD"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/main_ag_globalLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:background="#EEEEEE">
+            </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
-    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,13 +1,24 @@
 package com.app.myg;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +38,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+
 
 public class AG_main extends AppCompatActivity
 {
@@ -41,6 +55,13 @@ public class AG_main extends AppCompatActivity
     private int gameId;
     private DatabaseReference mDatabase;
 
+    private Button btn_recent;
+    private Button btn_top;
+    private Button btn_type;
+
+    private String trie;
+
+
 
 
     @Override
@@ -49,8 +70,21 @@ public class AG_main extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ag_main);
 
+        //init
         list_jeux=new ArrayList<Z_Game>() ;
         user=new Z_user();
+
+        //init objets page
+        btn_recent= (Button) findViewById(R.id.AG_main_btn_recent);
+        btn_top= (Button) findViewById(R.id.AG_main_btn_top);
+        btn_type= (Button) findViewById(R.id.AG_main_btn_type);
+
+        btn_recent.setOnClickListener(onRecent);
+        btn_top.setOnClickListener(onTop);
+        btn_type.setOnClickListener(onType);
+
+        btn_recent.setPaintFlags(btn_top.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 
         //Interface Objects
         globalLayout =  (LinearLayout) findViewById(R.id.main_ag_globalLayout);
@@ -60,12 +94,15 @@ public class AG_main extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
 
-        showProgressDialog();
+        trie="recent";
+
         mDatabase.addListenerForSingleValueEvent(postListener);
-        hideProgressDialog();
+
 
 
     }
+
+
 
 
 //---------------------------------------------------------------------------------------
@@ -78,9 +115,10 @@ public class AG_main extends AppCompatActivity
         @Override
         public void onDataChange(DataSnapshot dataSnapshot)
         {
-
+            showProgressDialog();
             user = dataSnapshot.getValue(Z_user.class);
             setAffichage(user);
+            hideProgressDialog();
 
         }
 
@@ -147,6 +185,52 @@ public class AG_main extends AppCompatActivity
     };
 
 
+    //ON recent
+    View.OnClickListener onRecent = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            btn_recent.setPaintFlags(btn_recent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            btn_top.setPaintFlags(0);
+            btn_type.setPaintFlags(0);
+            trie="recent";
+            showProgressDialog();
+            mDatabase.addListenerForSingleValueEvent(postListener);
+            hideProgressDialog();
+        }
+    };
+
+    //ON top
+    View.OnClickListener onTop = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            btn_recent.setPaintFlags(0);
+            btn_top.setPaintFlags(btn_top.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            btn_type.setPaintFlags(0);
+            trie="top";
+            showProgressDialog();
+            mDatabase.addListenerForSingleValueEvent(postListener);
+            hideProgressDialog();
+        }
+    };
+
+    //ON type
+    View.OnClickListener onType = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            btn_recent.setPaintFlags(0);
+            btn_top.setPaintFlags(0);
+            btn_type.setPaintFlags(btn_type.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            trie="type";
+            showProgressDialog();
+            mDatabase.addListenerForSingleValueEvent(postListener);
+            hideProgressDialog();
+        }
+    };
+
+
 
 
 //---------------------------------------------------------------------------------------
@@ -156,7 +240,8 @@ public class AG_main extends AppCompatActivity
     private void setAffichage(Z_user user)
     {
         globalLayout.removeAllViews();
-        for (Z_Game game : user.list_jeux)
+        List<Z_Game>list_sorted = trierList(user.list_jeux);
+        for (Z_Game game : list_sorted)
         {
             if (game != null)
             {
@@ -164,15 +249,15 @@ public class AG_main extends AppCompatActivity
                 LinearLayout LLgame = new LinearLayout(this);
                 LLgame.setOrientation(LinearLayout.VERTICAL);
                 LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-                LLParams.setMargins(20, 10, 20, 0);
+                LLParams.setMargins(20, 5, 20, 0);
                 LLgame.setLayoutParams(LLParams);
-                LLgame.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                LLgame.setBackgroundColor(Color.parseColor("#FDFDFD"));
                 LLgame.setId(game.id);
 
                 TextView nom = new TextView(this);
                 nom.setText(game.nom);
-                nom.setTextSize(25);
-                nom.setTextColor(Color.parseColor("#3F51B5"));
+                nom.setTextSize(14);
+                nom.setTextColor(Color.parseColor("#000000"));
                 LLgame.addView(nom);
 
 
@@ -201,12 +286,6 @@ public class AG_main extends AppCompatActivity
                         duree.setTextSize(12);
                         LLTextes.addView(duree);
 
-                        //rating bar
-                       /* RatingBar rb = new RatingBar(this, null, android.R.attr.ratingBarStyleSmall);
-                        rb.setMax(5);
-                        rb.setNumStars(game.note);
-                        LLTextes.addView(rb);*/
-
                         LinearLayout LLStars = new LinearLayout(this);
                         LLStars.setOrientation(LinearLayout.HORIZONTAL);
                         LLStars.setLayoutParams(LLParams);
@@ -218,7 +297,7 @@ public class AG_main extends AppCompatActivity
                     bt.setImageResource(R.drawable.ic_star_full);
                     LLStars.addView(bt);
                 }
-                for (int i=game.note; i<6; i++)
+                for (int i=game.note; i<5; i++)
                 {
                     ImageButton bt = new ImageButton(this);
                     bt.setBackgroundColor(Color.TRANSPARENT);
@@ -368,6 +447,55 @@ public class AG_main extends AppCompatActivity
     }
 
 
+    private List<Z_Game> trierList(List<Z_Game>list)
+    {
+        List<Z_Game> sortedList = list;
+
+        switch (this.trie)
+        {
+            case "recent":
+                //Sorting
+                Collections.sort(sortedList, new Comparator<Z_Game>() {
+                    @Override
+                    public int compare(Z_Game s1, Z_Game s2) {
+
+                        return s1.date.compareTo(s2.date);
+                    }
+                });
+
+                break;
+
+            case "top":
+                //Sorting
+                Collections.sort(sortedList, new Comparator<Z_Game>() {
+                    @Override
+                    public int compare(Z_Game s1, Z_Game s2) {
+
+                        return String.valueOf(s1.note).compareTo(String.valueOf(s2.note));
+                    }
+                });
+
+                break;
+
+            case "type":
+                //Sorting
+                Collections.sort(sortedList, new Comparator<Z_Game>() {
+                    @Override
+                    public int compare(Z_Game s1, Z_Game s2) {
+
+                        return s1.type.compareTo(s2.type);
+                    }
+                });
+
+                break;
+
+
+        }
+
+    return sortedList;
+
+    }
+
 //---------------------------------------------------------------------------------------
 //	PROGRESS DIALOG
 //---------------------------------------------------------------------------------------
@@ -386,4 +514,6 @@ public class AG_main extends AppCompatActivity
             mProgressDialog.dismiss();
         }
     }
+
+
 }
