@@ -239,6 +239,8 @@ public class AG_main extends AppCompatActivity
 
     private void setAffichage(Z_user user)
     {
+
+
         globalLayout.removeAllViews();
         List<Z_Game>list_sorted = trierList(user.list_jeux);
         for (Z_Game game : list_sorted)
@@ -259,6 +261,8 @@ public class AG_main extends AppCompatActivity
                 nom.setTextSize(14);
                 nom.setTextColor(Color.parseColor("#000000"));
                 LLgame.addView(nom);
+
+
 
 
                 LinearLayout LLContenu = new LinearLayout(this);
@@ -450,6 +454,7 @@ public class AG_main extends AppCompatActivity
     private List<Z_Game> trierList(List<Z_Game>list)
     {
         List<Z_Game> sortedList = list;
+        sortedList.removeAll(Collections.singleton(null));
 
         switch (this.trie)
         {
@@ -462,7 +467,6 @@ public class AG_main extends AppCompatActivity
                         return s1.date.compareTo(s2.date);
                     }
                 });
-
                 break;
 
             case "top":
@@ -491,7 +495,7 @@ public class AG_main extends AppCompatActivity
 
 
         }
-
+        Collections.reverse(sortedList);
     return sortedList;
 
     }

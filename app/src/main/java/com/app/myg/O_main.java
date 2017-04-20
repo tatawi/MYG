@@ -14,7 +14,7 @@ public class O_main extends AppCompatActivity {
         setContentView(R.layout.activity_o_main);
 
 
-        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+        /*FirebaseAuth mAuth= FirebaseAuth.getInstance();
         Z_Base bdd = new Z_Base();
 
 
@@ -55,7 +55,7 @@ public class O_main extends AppCompatActivity {
         user.list_jeux.add(jeu10);
         user.list_groupes.add(group);
         user.list_groupes.add(group2);
-
+*/
 
 
 

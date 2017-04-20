@@ -11,7 +11,7 @@ public class Z_user
 {
     public String userId;
     public String mail;
-    public List<Z_Group> list_groupes;
+    public List<String> list_groupes;
     public List<Z_Game> list_jeux;
 
     //Default constructor
@@ -19,7 +19,7 @@ public class Z_user
     {
         this.userId="";
         this.mail="";
-        list_groupes=new ArrayList<Z_Group>();
+        list_groupes=new ArrayList<String>();
         list_jeux=new ArrayList<Z_Game>();
     }
 
@@ -27,7 +27,7 @@ public class Z_user
     {
         this.userId=userId;
         this.mail=mail;
-        list_groupes= new ArrayList<Z_Group>();
+        list_groupes= new ArrayList<String>();
         list_jeux= new ArrayList<Z_Game>();
     }
 

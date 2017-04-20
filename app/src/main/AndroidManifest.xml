@@ -57,7 +57,10 @@
         <activity
             android:name=".toto"
             android:label="@string/title_activity_toto"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FG_add" />
+        <activity android:name=".FG_rech" />
+        <activity android:name=".FG_group"></activity>
     </application>
 
 </manifest>

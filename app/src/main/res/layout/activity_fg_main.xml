@@ -6,4 +6,73 @@
     android:layout_height="match_parent"
     tools:context="com.app.myg.FG_main">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="#EEEEEE">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#3F51B5"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/FG_main_btn_all"
+                android:text="MES GROUPES"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#3F51B5"
+                android:textColor="#FDFDFD"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <Button
+                android:id="@+id/FG_main_btn_rech"
+                android:text="RECHERCHER"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#3F51B5"
+                android:textColor="#FDFDFD"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <Button
+                android:id="@+id/FG_main_btn_add"
+                android:text="CREER"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#3F51B5"
+                android:textColor="#FDFDFD"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"/>
+
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/FG_main_globalLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="50dp"
+                android:background="#EEEEEE">
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+
+
 </android.support.constraint.ConstraintLayout>
