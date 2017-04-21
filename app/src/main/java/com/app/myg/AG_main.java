@@ -73,6 +73,7 @@ public class AG_main extends AppCompatActivity
         //init
         list_jeux=new ArrayList<Z_Game>() ;
         user=new Z_user();
+        trie="recent";
 
         //init objets page
         btn_recent= (Button) findViewById(R.id.AG_main_btn_recent);
@@ -90,12 +91,9 @@ public class AG_main extends AppCompatActivity
         globalLayout =  (LinearLayout) findViewById(R.id.main_ag_globalLayout);
 
         //Firabase Objects
+        showProgressDialog();
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-
-
-        trie="recent";
-
         mDatabase.addListenerForSingleValueEvent(postListener);
 
 
@@ -115,11 +113,9 @@ public class AG_main extends AppCompatActivity
         @Override
         public void onDataChange(DataSnapshot dataSnapshot)
         {
-            showProgressDialog();
             user = dataSnapshot.getValue(Z_user.class);
             setAffichage(user);
             hideProgressDialog();
-
         }
 
         @Override
@@ -196,7 +192,6 @@ public class AG_main extends AppCompatActivity
             trie="recent";
             showProgressDialog();
             mDatabase.addListenerForSingleValueEvent(postListener);
-            hideProgressDialog();
         }
     };
 
@@ -211,7 +206,6 @@ public class AG_main extends AppCompatActivity
             trie="top";
             showProgressDialog();
             mDatabase.addListenerForSingleValueEvent(postListener);
-            hideProgressDialog();
         }
     };
 
@@ -226,7 +220,6 @@ public class AG_main extends AppCompatActivity
             trie="type";
             showProgressDialog();
             mDatabase.addListenerForSingleValueEvent(postListener);
-            hideProgressDialog();
         }
     };
 
@@ -239,8 +232,6 @@ public class AG_main extends AppCompatActivity
 
     private void setAffichage(Z_user user)
     {
-
-
         globalLayout.removeAllViews();
         List<Z_Game>list_sorted = trierList(user.list_jeux);
         for (Z_Game game : list_sorted)
@@ -256,15 +247,14 @@ public class AG_main extends AppCompatActivity
                 LLgame.setBackgroundColor(Color.parseColor("#FDFDFD"));
                 LLgame.setId(game.id);
 
+                //tb nom
                 TextView nom = new TextView(this);
                 nom.setText(game.nom);
                 nom.setTextSize(14);
                 nom.setTextColor(Color.parseColor("#000000"));
                 LLgame.addView(nom);
 
-
-
-
+                //layout
                 LinearLayout LLContenu = new LinearLayout(this);
                 LLContenu.setOrientation(LinearLayout.HORIZONTAL);
                 LLContenu.setLayoutParams(LLParams);
@@ -290,25 +280,26 @@ public class AG_main extends AppCompatActivity
                         duree.setTextSize(12);
                         LLTextes.addView(duree);
 
+                        //ETOILES
                         LinearLayout LLStars = new LinearLayout(this);
                         LLStars.setOrientation(LinearLayout.HORIZONTAL);
                         LLStars.setLayoutParams(LLParams);
 
-                for (int i=0; i<game.note; i++)
-                {
-                    ImageButton bt = new ImageButton(this);
-                    bt.setBackgroundColor(Color.TRANSPARENT);
-                    bt.setImageResource(R.drawable.ic_star_full);
-                    LLStars.addView(bt);
-                }
-                for (int i=game.note; i<5; i++)
-                {
-                    ImageButton bt = new ImageButton(this);
-                    bt.setBackgroundColor(Color.TRANSPARENT);
-                    bt.setImageResource(R.drawable.ic_star_empty);
-                    LLStars.addView(bt);
-                }
-                LLTextes.addView(LLStars);
+                        for (int i=0; i<game.note; i++)
+                        {
+                            ImageButton bt = new ImageButton(this);
+                            bt.setBackgroundColor(Color.TRANSPARENT);
+                            bt.setImageResource(R.drawable.ic_star_full);
+                            LLStars.addView(bt);
+                        }
+                        for (int i=game.note; i<5; i++)
+                        {
+                            ImageButton bt = new ImageButton(this);
+                            bt.setBackgroundColor(Color.TRANSPARENT);
+                            bt.setImageResource(R.drawable.ic_star_empty);
+                            LLStars.addView(bt);
+                        }
+                        LLTextes.addView(LLStars);
 
 
                     LLContenu.addView(img);

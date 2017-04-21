@@ -52,15 +52,16 @@
             android:label="@string/title_o_main"
             android:parentActivityName=".A_Accueil" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:name=".FG_add"
+            android:label="Créer un groupe"
+            android:parentActivityName=".A_Accueil"/>
         <activity
-            android:name=".toto"
-            android:label="@string/title_activity_toto"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FG_add" />
-        <activity android:name=".FG_rech" />
-        <activity android:name=".FG_group"></activity>
+            android:name=".FG_rech"
+            android:label="Rejoindre un groupe"
+            android:parentActivityName=".A_Accueil"/>
+        <activity
+            android:name=".FG_group"
+            android:parentActivityName=".FG_main"></activity>
     </application>
 
 </manifest>

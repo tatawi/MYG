@@ -1,5 +1,6 @@
 package com.app.myg;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import java.util.Date;
 public class FG_main extends AppCompatActivity
 {
     //objets page
+    public ProgressDialog mProgressDialog;
     private Button btn_all;
     private Button btn_rech;
     private Button btn_add;
@@ -47,7 +49,7 @@ public class FG_main extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fg_main);
 
-
+        showProgressDialog();
 
         // initialisation objets
         btn_all = (Button) findViewById(R.id.FG_main_btn_all);
@@ -65,6 +67,8 @@ public class FG_main extends AppCompatActivity
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
         mDatabase.addListenerForSingleValueEvent(readGroupsListener);
+
+
     }
 
 
@@ -171,6 +175,9 @@ public class FG_main extends AppCompatActivity
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Groupes").child(groupId);
                 mDatabase.addListenerForSingleValueEvent(readGroupListener);
             }
+
+            hideProgressDialog();
+
         }
 
         @Override
@@ -192,29 +199,31 @@ public class FG_main extends AppCompatActivity
             LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
             LLParams.setMargins(20, 5, 20, 0);
             LLgame.setLayoutParams(LLParams);
+            LLgame.setPadding(5, 5, 5, 5);
             LLgame.setBackgroundColor(Color.parseColor("#FDFDFD"));
             LLgame.setId(Integer.parseInt(group.groupId));
 
+
             TextView nom = new TextView(context);
             nom.setText(group.nom);
-            nom.setTextSize(14);
+            nom.setTextSize(15);
             nom.setTextColor(Color.parseColor("#000000"));
             LLgame.addView(nom);
 
             TextView lb_menbres = new TextView(context);
-            lb_menbres.setText((group.list_membresId.size()+1) +" menbres");
+            lb_menbres.setText((group.list_membresId.size()) +" menbres");
             if(group.list_demandesMembresId.size()==1)
                 lb_menbres.setText("1 membre");
-            lb_menbres.setTextSize(12);
+            lb_menbres.setTextSize(13);
             LLgame.addView(lb_menbres);
 
             TextView lb_demandes = new TextView(context);
-            lb_demandes.setText((group.list_demandesMembresId.size()+1) +" demandes");
+            lb_demandes.setText((group.list_demandesMembresId.size()) +" demandes");
             if(group.list_demandesMembresId.size()==0)
                 lb_demandes.setText("Pas de nouvelles demandes");
             if(group.list_demandesMembresId.size()==1)
                 lb_demandes.setText("1 demande");
-            lb_demandes.setTextSize(12);
+            lb_demandes.setTextSize(13);
             LLgame.addView(lb_demandes);
 
 
@@ -229,6 +238,30 @@ public class FG_main extends AppCompatActivity
         public void onCancelled(DatabaseError databaseError)
         {}
     };
+
+
+
+
+//---------------------------------------------------------------------------------------
+//	FONCTIONS
+//---------------------------------------------------------------------------------------
+
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Chargement...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 
 }
 

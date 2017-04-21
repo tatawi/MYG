@@ -32,7 +32,7 @@
 
             <Button
                 android:id="@+id/FG_main_btn_rech"
-                android:text="RECHERCHER"
+                android:text="REJOINDRE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#3F51B5"

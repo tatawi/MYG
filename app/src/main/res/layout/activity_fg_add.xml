@@ -7,7 +7,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-    tools:context="com.app.myg.FG_add">
+    tools:context="com.app.myg.FG_add"
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -29,7 +30,7 @@
 
         <Button
             android:id="@+id/FG_add_btn_rech"
-            android:text="RECHERCHER"
+            android:text="REJOINDRE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#3F51B5"

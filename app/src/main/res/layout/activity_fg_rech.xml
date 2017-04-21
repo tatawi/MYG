@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.myg.FG_rech">
+    tools:context="com.app.myg.FG_rech"
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -26,7 +27,7 @@
 
         <Button
             android:id="@+id/FG_rech_btn_rech"
-            android:text="RECHERCHER"
+            android:text="REJOINDRE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#3F51B5"
@@ -47,6 +48,39 @@
             style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <EditText
+            android:id="@+id/FG_rech_tb_nomGroupe"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=""
+            android:hint="Nom du groupe"
+            android:layout_marginBottom="10dp"
+            />
+
+        <Button
+            android:id="@+id/FG_rech_btn_rejoindre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Rejoindre le groupe"
+            android:background="#3F51B5"
+            android:textColor="#FDFDFD"
+            />
+
+
+    </LinearLayout>
+
+
 
 
 </android.support.constraint.ConstraintLayout>

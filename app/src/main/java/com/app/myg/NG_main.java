@@ -1,5 +1,6 @@
 package com.app.myg;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -100,6 +101,8 @@ public class NG_main extends AppCompatActivity
         btn_hh_moins.setOnClickListener(onRemoveHour);
         btn_mm_plus.setOnClickListener(onAddMin);
         btn_mm_moins.setOnClickListener(onRemoveMin);
+        tb_nom.setOnFocusChangeListener(onLostFocus);
+
 
         //spinner
         List<String> spinnerArray =  new ArrayList<String>();
@@ -309,6 +312,18 @@ public class NG_main extends AppCompatActivity
 
         }
     };
+
+    View.OnFocusChangeListener onLostFocus = new View.OnFocusChangeListener() {
+    @Override
+    public void onFocusChange(View v, boolean hasFocus)
+    {
+        if (!hasFocus)
+        {
+            InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+};
 
 
 
