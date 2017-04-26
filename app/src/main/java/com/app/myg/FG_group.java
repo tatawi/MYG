@@ -1,6 +1,7 @@
 package com.app.myg;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +10,14 @@ import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,8 +39,8 @@ public class FG_group extends AppCompatActivity
     final Context context = this;
     private Z_Group group;
     private String nomGroupe="Groupe";
-    //private List<Z_user> listMembres;
-    //private List<Z_user> listDemandes;
+    private List<Z_user> listMembres;
+    private List<Z_user> listDemandes;
     private DatabaseReference mDatabase;
 
 
@@ -48,8 +53,8 @@ public class FG_group extends AppCompatActivity
         Intent myIntent = getIntent(); // gets the previously created intent
         String groupId = myIntent.getStringExtra("groupId");
         group=new Z_Group();
-       // listMembres = new ArrayList<Z_user>();
-       // listDemandes = new ArrayList<Z_user>();
+        listMembres = new ArrayList<Z_user>();
+        listDemandes = new ArrayList<Z_user>();
 
         ll_membres = (LinearLayout) findViewById(R.id.fg_group_membres_layout);
         ll_demandes = (LinearLayout) findViewById(R.id.fg_group_demandes_layout);
@@ -61,6 +66,139 @@ public class FG_group extends AppCompatActivity
 
         this.setTitle(nomGroupe);
 
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.fg_group, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menu_fg_group_game)
+        {
+            final Dialog dialog = new Dialog(context);
+
+            dialog.setTitle("Tous les jeux");
+            //panel global
+            LinearLayout LLmain = new LinearLayout(context);
+            LLmain.setOrientation(LinearLayout.VERTICAL);
+            LLmain.setBackgroundColor(Color.parseColor("#FDFDFD"));
+
+            TextView title = new TextView(context);
+            title.setText("Jeux du groupe");
+            title.setTextColor(Color.parseColor("#3F51B5"));
+            title.setTextSize(18);
+            LLmain.addView(title);
+
+            View v = new View(context);
+            LinearLayout.LayoutParams LLParamsV = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+            LLParamsV.height=2;
+            v.setLayoutParams(LLParamsV);
+            v.setBackgroundColor(Color.parseColor("#3F51B5"));
+            LLmain.addView(v);
+
+
+            ScrollView SCmain = new ScrollView(context);
+            LLmain.addView(SCmain);
+
+            LinearLayout LLglobal = new LinearLayout(context);
+            LLglobal.setOrientation(LinearLayout.VERTICAL);
+            LLglobal.setBackgroundColor(Color.parseColor("#FDFDFD"));
+            SCmain.addView(LLglobal);
+
+
+
+
+
+            for (Z_user user : listMembres)
+            {
+                if (user != null)
+                {
+                    for (Z_Game game : user.list_jeux)
+                    {
+                        if (game != null)
+                        {
+                            //panel global
+                            LinearLayout LLgame = new LinearLayout(context);
+                            LLgame.setOrientation(LinearLayout.VERTICAL);
+                            LinearLayout.LayoutParams LLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                            LLParams.setMargins(20, 5, 20, 0);
+                            LLgame.setPadding(5,5,5,5);
+                            LLgame.setLayoutParams(LLParams);
+                            LLgame.setBackgroundColor(Color.parseColor("#FDFDFD"));
+
+                            TextView nom = new TextView(context);
+                            nom.setText(game.nom);
+                            nom.setTextSize(13);
+                            nom.setTextColor(Color.parseColor("#000000"));
+                            LLgame.addView(nom);
+
+                            LLglobal.addView(LLgame);
+                        }
+                    }
+                }
+
+            }
+
+
+
+            Button dialogButton = new Button(context);
+            dialogButton.setText("Fermer");
+            dialogButton.setBackgroundColor(Color.parseColor("#3F51B5"));
+            dialogButton.setTextColor(Color.parseColor("#FDFDFD"));
+            // if button is clicked, close the custom dialog
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            LLmain.addView(dialogButton);
+
+
+            dialog.setContentView(LLmain);
+
+
+/*
+            // set the custom dialog components - text, image and button
+            TextView text = (TextView) dialog.findViewById(R.id.text);
+            text.setText("Android custom dialog example!");
+            ImageView image = (ImageView) dialog.findViewById(R.id.image);
+            image.setImageResource(R.drawable.ic_launcher);
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+            // if button is clicked, close the custom dialog
+            dialogButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });*/
+
+            dialog.show();
+
+            //
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -108,6 +246,7 @@ public class FG_group extends AppCompatActivity
         public void onDataChange(DataSnapshot dataSnapshot)
         {
             Z_user user = dataSnapshot.getValue(Z_user.class);
+            listMembres.add(user);
 
             //panel global
             LinearLayout LLmembre = new LinearLayout(context);
@@ -146,6 +285,7 @@ public class FG_group extends AppCompatActivity
         public void onDataChange(DataSnapshot dataSnapshot)
         {
             Z_user user = dataSnapshot.getValue(Z_user.class);
+            listDemandes.add(user);
 
             //panel global
             LinearLayout LLdemandes = new LinearLayout(context);
