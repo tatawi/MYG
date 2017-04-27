@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +43,7 @@ public class FG_group extends AppCompatActivity
     private List<Z_user> listMembres;
     private List<Z_user> listDemandes;
     private DatabaseReference mDatabase;
+    private int userId;
 
 
     @Override
@@ -53,6 +55,7 @@ public class FG_group extends AppCompatActivity
         Intent myIntent = getIntent(); // gets the previously created intent
         String groupId = myIntent.getStringExtra("groupId");
         group=new Z_Group();
+        userId=0;
         listMembres = new ArrayList<Z_user>();
         listDemandes = new ArrayList<Z_user>();
 
@@ -176,22 +179,6 @@ public class FG_group extends AppCompatActivity
             dialog.setContentView(LLmain);
 
 
-/*
-            // set the custom dialog components - text, image and button
-            TextView text = (TextView) dialog.findViewById(R.id.text);
-            text.setText("Android custom dialog example!");
-            ImageView image = (ImageView) dialog.findViewById(R.id.image);
-            image.setImageResource(R.drawable.ic_launcher);
-
-            Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-            // if button is clicked, close the custom dialog
-            dialogButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });*/
-
             dialog.show();
 
             //
@@ -218,6 +205,8 @@ public class FG_group extends AppCompatActivity
 
             group = dataSnapshot.getValue(Z_Group.class);
             nomGroupe=group.nom;
+            ll_membres.removeAllViews();
+            ll_demandes.removeAllViews();
 
             for(String userId : group.list_membresId)
             {
@@ -299,6 +288,8 @@ public class FG_group extends AppCompatActivity
             ImageButton btn_accepter = new ImageButton(context);
             btn_accepter.setImageResource(R.drawable.ic_accept);
             btn_accepter.setOnClickListener(onAccept);
+            btn_accepter.setId(userId);
+            userId++;
             btn_accepter.setBackgroundColor(Color.TRANSPARENT);
             btn_accepter.setPadding(5,5,5,5);
             LLdemandes.addView(btn_accepter);
@@ -346,6 +337,36 @@ public class FG_group extends AppCompatActivity
     {
         public void onClick(View v)
         {
+            Z_user userTomove = listDemandes.get(v.getId());
+
+            //gestion groupe
+            group.list_membresId.add(userTomove.userId);
+            group.list_demandesMembresId.remove(userTomove.userId);
+
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("Groupes").child(group.groupId).setValue(group);
+
+
+
+            //gestion user
+            userTomove.list_groupes.add(group.groupId);
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("Users").child(userTomove.userId).setValue(userTomove);
+
+            Toast.makeText(FG_group.this, "Utilisateur accepté",Toast.LENGTH_LONG).show();
+
+
+
+            listMembres = new ArrayList<Z_user>();
+            listDemandes = new ArrayList<Z_user>();
+            showProgressDialog();
+            FirebaseAuth mAuth= FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("Groupes").child(""+group.groupId);
+            mDatabase.addListenerForSingleValueEvent(readGroupListener);
+
+            /*
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("Groupes").child(newGroup.groupId).setValue(newGroup);*/
             //DANS LE GROUPE
             //=>retirer de la liste demandes
             //=>ajouter a la liste membre

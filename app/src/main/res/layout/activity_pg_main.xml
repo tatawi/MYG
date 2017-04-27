@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.app.myg.PG_main">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#EEEEEE">
 
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="Groupe de jeu : "
             android:textSize="13dp"
             android:textColor="#3F51B5"/>
@@ -37,7 +42,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="10">
+        android:weightSum="10"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:layout_weight="2"
@@ -51,7 +57,8 @@
             android:id="@+id/pg_main_sk_nbJoueurs"
             android:layout_weight="6"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:max="10"/>
 
         <TextView
             android:id="@+id/pg_main_tb_nbJoueurs"
@@ -59,7 +66,7 @@
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text="All"
             android:textSize="11dp"
             android:textStyle="italic"/>
 
@@ -71,7 +78,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_weight="2"
@@ -85,7 +93,9 @@
                 android:id="@+id/pg_main_sk_diff"
                 android:layout_weight="6"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:max="3"
+                />
 
             <TextView
                 android:id="@+id/pg_main_tb_diff"
@@ -93,7 +103,7 @@
                 android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Difficile"
+                android:text="All"
                 android:textSize="11dp"
                 android:textStyle="italic"/>
 
@@ -111,7 +121,7 @@
                 android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="durée"
+                android:text="Durée"
                 android:textSize="13dp"
                 android:textColor="#3F51B5"/>
 
@@ -119,7 +129,8 @@
                 android:id="@+id/pg_main_sk_duree"
                 android:layout_weight="6"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:max="24"/>
 
             <TextView
                 android:id="@+id/pg_main_tb_duree"
@@ -127,14 +138,38 @@
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="1h00"
+                android:text="All"
                 android:textSize="11dp"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                />
 
         </LinearLayout>
 
 
     </LinearLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#3F51B5"
 
-</android.support.constraint.ConstraintLayout>
+        />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/pg_main_ll_global"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#EEEEEE">
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>
